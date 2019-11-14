@@ -1,5 +1,5 @@
 import React from 'react';
-import './index.css';
+import './index.scss';
 import { Table, TableBody, TableCell, TableRow, Paper } from '@material-ui/core';
 import ProductsListHead from '../../components/ProductsListHead';
 

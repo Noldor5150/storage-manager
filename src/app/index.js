@@ -1,5 +1,6 @@
 import React from 'react';
-import ProductsList from './pages/ProductsList';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { ProductsList, PageNotFound, Create, Home } from './pages';
 import Layout from './components/Layout';
 
 class App extends React.Component {
@@ -45,9 +46,20 @@ class App extends React.Component {
   render() {
     const { products, error } = this.state;
     return (
-      <Layout>
-        <ProductsList products={products} error={error} />
-      </Layout>
+      <Router>
+        <Layout>
+          <Switch>
+            <Route
+              path="/products"
+              exact
+              render={() => <ProductsList products={products} error={error} />}
+            />
+            <Route path="/" exact component={Home} />
+            <Route path="/products/create" exact component={Create} />
+            <Route component={PageNotFound} />
+          </Switch>
+        </Layout>
+      </Router>
     );
   }
 }
