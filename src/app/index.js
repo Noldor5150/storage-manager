@@ -13,7 +13,7 @@ class App extends React.Component {
         type: 'liquid',
         weight: 500,
         color: 'brown',
-        isActive: false,
+        isActive: true,
         quantity: 10,
         price: 3,
       },
@@ -35,14 +35,36 @@ class App extends React.Component {
         type: 'liquid',
         weight: 1000,
         color: 'eyellow',
-        isActive: false,
+        isActive: true,
         quantity: 7,
         price: 5,
       },
     ],
     error: null,
   };
+  myCallback = id => {
+    let childsID = id;
+    console.log(id);
+    return childsID;
+  };
+  toggleActive = id => {
+    const { products } = this.state;
 
+    const changedProducts = products.map(product => {
+      if (product.id === id) {
+        product.isActive = !product.isActive;
+      }
+      return product;
+    });
+
+    this.setState({ products: changedProducts });
+  };
+
+  deleteProduct = removeId => {
+    this.setState(state => {
+      return { products: state.products.filter(({ id }) => id !== removeId) };
+    });
+  };
   render() {
     const { products, error } = this.state;
     return (
@@ -52,7 +74,15 @@ class App extends React.Component {
             <Route
               path="/products"
               exact
-              render={() => <ProductsList products={products} error={error} />}
+              render={() => (
+                <ProductsList
+                  products={products}
+                  error={error}
+                  callbackFromParent={this.myCallback}
+                  toggleActive={this.toggleActive}
+                  deleteProduct={this.deleteProduct}
+                />
+              )}
             />
             <Route path="/" exact component={Home} />
             <Route path="/products/create" exact component={Create} />
