@@ -28,12 +28,10 @@ function ProductsList({
 
   function handleQuantityChange(event) {
     setInputQuantity(event.target.value);
-    console.log(inputQuantity);
   }
 
   function handlePriceChange(event) {
     setInputPrice(event.target.value);
-    console.log(inputPrice);
   }
 
   return error ? (

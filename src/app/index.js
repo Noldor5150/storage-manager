@@ -77,13 +77,11 @@ class App extends React.Component {
       this.setState({ products: changedProducts });
     }
   };
-
   deleteProduct = removeId => {
     this.setState(state => {
       return { products: state.products.filter(({ id }) => id !== removeId) };
     });
   };
-
   saveEditedFromList = (id, newQuantity, newPrice) => {
     const { products } = this.state;
     const changedProducts = products.map(product => {
@@ -122,6 +120,39 @@ class App extends React.Component {
     });
     this.setState({ products: changedProducts });
   };
+  addNewProduct = (
+    newId,
+    newName,
+    newEan,
+    newType,
+    newWeight,
+    newColor,
+    newQuantity,
+    newPrice
+  ) => {
+    const { products, error } = this.state;
+    const changedProducts = products;
+    let newProduct = {};
+    let IdError = error;
+    console.log(IdError);
+    if (products.some(product => product.id === newId)) {
+      IdError = "this Id is already in use";
+      this.setState({ products: changedProducts, error: IdError });
+    } else {
+      newProduct.name = newName;
+      newProduct.id = newId;
+      newProduct.ean = newEan;
+      newProduct.type = newType;
+      newProduct.weight = newWeight;
+      newProduct.color = newColor;
+      newProduct.isActive = false;
+      newProduct.quantity = newQuantity;
+      newProduct.price = newPrice;
+      newProduct.isEdit = false;
+      changedProducts.push(newProduct);
+      this.setState({ products: changedProducts });
+    }
+  };
   render() {
     const { products, error } = this.state;
     return (
@@ -143,7 +174,13 @@ class App extends React.Component {
               )}
             />
             <Route path="/" exact component={Home} />
-            <Route path="/products/create" exact component={Create} />
+            <Route
+              path="/products/create"
+              exact
+              render={() => (
+                <Create error={error} addNewProduct={this.addNewProduct} />
+              )}
+            />
 
             <Route
               path="/products/:id"
