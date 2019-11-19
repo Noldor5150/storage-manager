@@ -1,6 +1,6 @@
-import React from 'react';
-import './index.css';
-import { TableCell, TableHead, TableRow } from '@material-ui/core';
+import React from "react";
+import "./index.scss";
+import { TableCell, TableHead, TableRow } from "@material-ui/core";
 
 function ProductsListHead({ keys }) {
   const [first, , third, fourth, fifth, sixth, seventh, eigth, ninth] = keys;

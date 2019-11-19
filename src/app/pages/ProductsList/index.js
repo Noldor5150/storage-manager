@@ -66,12 +66,10 @@ function ProductsList({
                 <TableCell align="justify">{color}</TableCell>
                 <TableCell align="justify" style={{ width: "12%" }}>
                   <TextField
-                    key="id"
                     type="number"
                     margin="none"
                     disabled={!isEdit}
                     defaultValue={quantity}
-                    isActive
                     onChange={handleQuantityChange}
                     onClick={() => {
                       enableEdit(id);
@@ -80,7 +78,6 @@ function ProductsList({
                 </TableCell>
                 <TableCell align="justify" style={{ width: "12%" }}>
                   <TextField
-                    key="id"
                     type="number"
                     margin="none"
                     disabled={!isEdit}
@@ -116,9 +113,17 @@ function ProductsList({
                       save
                     </Button>
                   ) : (
-                    <Button variant="contained" color="primary">
-                      edit
-                    </Button>
+                    <Link to={`/products/${id}/edit`}>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => {
+                          enableEdit(id);
+                        }}
+                      >
+                        edit
+                      </Button>
+                    </Link>
                   )}
                   <Button
                     variant="contained"

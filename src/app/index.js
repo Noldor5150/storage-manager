@@ -5,7 +5,8 @@ import {
   PageNotFound,
   Create,
   Home,
-  SingleProduct
+  SingleProduct,
+  Edit
 } from "./pages";
 import Layout from "./components/Layout";
 
@@ -95,6 +96,32 @@ class App extends React.Component {
     });
     this.setState({ products: changedProducts });
   };
+  saveEditedFromEdit = (
+    id,
+    newName,
+    newEan,
+    newType,
+    newWeight,
+    newColor,
+    newQuantity,
+    newPrice
+  ) => {
+    const { products } = this.state;
+    const changedProducts = products.map(product => {
+      if (product.id === id) {
+        product.isEdit = false;
+        product.name = newName ? newName : product.name;
+        product.ean = newEan ? newEan : product.ean;
+        product.type = newType ? newType : product.type;
+        product.weight = newWeight ? newWeight : product.weight;
+        product.color = newColor ? newColor : product.color;
+        product.quantity = newQuantity ? newQuantity : product.quantity;
+        product.price = newPrice ? newPrice : product.price;
+      }
+      return product;
+    });
+    this.setState({ products: changedProducts });
+  };
   render() {
     const { products, error } = this.state;
     return (
@@ -108,7 +135,6 @@ class App extends React.Component {
                 <ProductsList
                   products={products}
                   error={error}
-                  // callbackFromParent={this.myCallback}
                   toggleActive={this.toggleActive}
                   deleteProduct={this.deleteProduct}
                   enableEdit={this.enableEdit}
@@ -127,6 +153,23 @@ class App extends React.Component {
                 const product =
                   products.find(product => product.id === id) || {};
                 return <SingleProduct {...props} product={product} />;
+              }}
+            />
+            <Route
+              path="/products/:id/edit"
+              exact
+              render={props => {
+                const { id } = props.match.params;
+                const product =
+                  products.find(product => product.id === id) || {};
+                return (
+                  <Edit
+                    {...props}
+                    product={product}
+                    toggleActive={this.toggleActive}
+                    saveEditedFromEdit={this.saveEditedFromEdit}
+                  />
+                );
               }}
             />
             <Route component={PageNotFound} />
