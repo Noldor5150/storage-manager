@@ -27,7 +27,6 @@ function Edit({ product, toggleActive, saveEditedFromEdit }) {
   const [inputColor, setInputColor] = useState(null);
   const [inputQuantity, setInputQuantity] = useState(null);
   const [inputPrice, setInputPrice] = useState(null);
-  const [inputActive, setInputActive] = useState(null);
 
   function handleNameChange(event) {
     setInputName(event.target.value);
@@ -51,9 +50,7 @@ function Edit({ product, toggleActive, saveEditedFromEdit }) {
   function handlePriceChange(event) {
     setInputPrice(event.target.value);
   }
-  function handleActiveChange(event) {
-    setInputActive(event.target.checked);
-  }
+
   return (
     <div className="Edit">
       <TextField
@@ -68,7 +65,9 @@ function Edit({ product, toggleActive, saveEditedFromEdit }) {
         control={
           <Checkbox
             color="primary"
-            onChange={handleActiveChange}
+            onChange={() => {
+              toggleActive(id);
+            }}
             checked={isActive}
             value="isActive"
           />
@@ -135,8 +134,7 @@ function Edit({ product, toggleActive, saveEditedFromEdit }) {
               inputWeight,
               inputColor,
               inputQuantity,
-              inputPrice,
-              inputActive
+              inputPrice
             );
           }}
         >

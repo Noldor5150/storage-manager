@@ -22,7 +22,6 @@ function ProductsList({
   saveEditedFromList
 }) {
   const keys = Object.keys(products[0]) || {};
-
   const [inputQuantity, setInputQuantity] = useState(null);
   const [inputPrice, setInputPrice] = useState(null);
 

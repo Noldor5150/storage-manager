@@ -8,7 +8,7 @@ import {
   SingleProduct,
   Edit
 } from "./pages";
-import Layout from "./components/Layout";
+import { Layout } from "./components";
 
 class App extends React.Component {
   state = {
@@ -23,7 +23,9 @@ class App extends React.Component {
         isActive: true,
         quantity: 10,
         price: 3,
-        isEdit: false
+        isEdit: false,
+        priceHistory: [3],
+        quantityHistory: [10]
       },
       {
         name: "Vynas",
@@ -35,7 +37,9 @@ class App extends React.Component {
         isActive: false,
         quantity: 1,
         price: 7,
-        isEdit: false
+        isEdit: false,
+        priceHistory: [7],
+        quantityHistory: [1]
       },
       {
         name: "Sidras",
@@ -47,7 +51,9 @@ class App extends React.Component {
         isActive: true,
         quantity: 7,
         price: 5,
-        isEdit: false
+        isEdit: false,
+        priceHistory: [5],
+        quantityHistory: [7]
       }
     ],
     error: null
@@ -87,8 +93,22 @@ class App extends React.Component {
     const changedProducts = products.map(product => {
       if (product.id === id) {
         product.isEdit = false;
-        product.quantity = newQuantity ? newQuantity : product.quantity;
-        product.price = newPrice ? newPrice : product.price;
+        const newPriceStory = product.priceHistory;
+        const newQuantityStory = product.quantityHistory;
+        if (newPrice && Number(newPrice) !== product.price) {
+          newPriceStory.push(Number(newPrice));
+          product.price = Number(newPrice);
+          if (newPriceStory.length > 5) {
+            newPriceStory.shift();
+          }
+        }
+        if (newQuantity && Number(newQuantity) !== product.quantity) {
+          newQuantityStory.push(Number(newQuantity));
+          product.quantity = Number(newQuantity);
+          if (newQuantityStory.length > 5) {
+            newQuantityStory.shift();
+          }
+        }
       }
       return product;
     });
@@ -109,13 +129,28 @@ class App extends React.Component {
       if (product.id === id) {
         product.isEdit = false;
         product.name = newName ? newName : product.name;
-        product.ean = newEan ? newEan : product.ean;
+        product.ean = newEan ? Number(newEan) : product.ean;
         product.type = newType ? newType : product.type;
         product.weight = newWeight ? newWeight : product.weight;
         product.color = newColor ? newColor : product.color;
-        product.quantity = newQuantity ? newQuantity : product.quantity;
-        product.price = newPrice ? newPrice : product.price;
+        const newPriceStory = product.priceHistory;
+        const newQuantityStory = product.quantityHistory;
+        if (newPrice && Number(newPrice) !== product.price) {
+          newPriceStory.push(Number(newPrice));
+          product.price = Number(newPrice);
+          if (newPriceStory.length > 5) {
+            newPriceStory.shift();
+          }
+        }
+        if (newQuantity && Number(newQuantity) !== product.quantity) {
+          newQuantityStory.push(Number(newQuantity));
+          product.quantity = Number(newQuantity);
+          if (newQuantityStory.length > 5) {
+            newQuantityStory.shift();
+          }
+        }
       }
+      console.log(product);
       return product;
     });
     this.setState({ products: changedProducts });
@@ -141,14 +176,16 @@ class App extends React.Component {
     } else {
       newProduct.name = newName;
       newProduct.id = newId;
-      newProduct.ean = newEan;
+      newProduct.ean = Number(newEan);
       newProduct.type = newType;
       newProduct.weight = newWeight;
       newProduct.color = newColor;
       newProduct.isActive = false;
-      newProduct.quantity = newQuantity;
-      newProduct.price = newPrice;
+      newProduct.quantity = Number(newQuantity);
+      newProduct.price = Number(newPrice);
       newProduct.isEdit = false;
+      newProduct.priceHistory = [Number(newPrice)];
+      newProduct.quantityHistory = [Number(newQuantity)];
       changedProducts.push(newProduct);
       this.setState({ products: changedProducts });
     }
