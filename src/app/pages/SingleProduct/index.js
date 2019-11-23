@@ -54,11 +54,15 @@ function SingleProduct(props) {
           />
           <Route
             path={`${props.match.path}/PriceHistory`}
-            component={PriceHistory}
+            exact
+            render={() => <PriceHistory {...props} product={props.product} />}
           />
           <Route
             path={`${props.match.path}/QuantityHistory`}
-            component={QuantityHistory}
+            exact
+            render={() => (
+              <QuantityHistory {...props} product={props.product} />
+            )}
           />
         </Switch>
       </div>

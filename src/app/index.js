@@ -150,7 +150,6 @@ class App extends React.Component {
           }
         }
       }
-      console.log(product);
       return product;
     });
     this.setState({ products: changedProducts });
