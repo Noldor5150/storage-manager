@@ -21,7 +21,6 @@ function ProductsList({
   enableEdit,
   saveEditedFromList
 }) {
-  const keys = Object.keys(products[0]) || {};
   const [inputQuantity, setInputQuantity] = useState(null);
   const [inputPrice, setInputPrice] = useState(null);
 
@@ -38,7 +37,7 @@ function ProductsList({
   ) : (
     <Paper>
       <Table aria-label="simple table">
-        <ProductsListHead keys={keys} />
+        <ProductsListHead products={products} />
         <TableBody>
           {products.map(
             ({
@@ -61,7 +60,7 @@ function ProductsList({
                 <TableCell align="justify">{type}</TableCell>
                 <TableCell align="justify">{weight}</TableCell>
                 <TableCell align="justify">{color}</TableCell>
-                <TableCell align="justify" style={{ width: "12%" }}>
+                <TableCell align="justify" style={{ width: "8%" }}>
                   <TextField
                     type="number"
                     margin="none"
@@ -73,7 +72,7 @@ function ProductsList({
                     }}
                   />
                 </TableCell>
-                <TableCell align="justify" style={{ width: "12%" }}>
+                <TableCell align="justify" style={{ width: "8%" }}>
                   <TextField
                     type="number"
                     margin="none"

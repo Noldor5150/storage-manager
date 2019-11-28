@@ -9,12 +9,6 @@ import "./index.scss";
 import { ProductDetails, PriceHistory, QuantityHistory } from "./subpages";
 
 function SingleProduct(props) {
-  console.log(props.match.url);
-
-  // if (!product) {
-  //   return <Redirect to="/products" />;
-  // }
-
   return (
     <Router>
       <div className="SingleProduct">
@@ -25,9 +19,8 @@ function SingleProduct(props) {
               className="SingleProduct--header--navigation-item"
               to={`${props.match.url}/ProductDetails`}
             >
-              Product Details{" "}
+              Product Details
             </NavLink>
-
             <NavLink
               exact
               className="SingleProduct--header--navigation-item"
@@ -35,39 +28,34 @@ function SingleProduct(props) {
             >
               Price History
             </NavLink>
-
             <NavLink
               exact
               className="SingleProduct--header--navigation-item"
               to={`${props.match.url}/QuantityHistory`}
             >
-              Quantity History{" "}
+              Quantity History
             </NavLink>
           </nav>
         </header>
-
         <Switch>
           <Route
             path={`${props.match.path}/ProductDetails`}
             exact
-            render={() => <ProductDetails {...props} product={props.product} />}
+            render={() => <ProductDetails product={props.product} />}
           />
           <Route
             path={`${props.match.path}/PriceHistory`}
             exact
-            render={() => <PriceHistory {...props} product={props.product} />}
+            render={() => <PriceHistory product={props.product} />}
           />
           <Route
             path={`${props.match.path}/QuantityHistory`}
             exact
-            render={() => (
-              <QuantityHistory {...props} product={props.product} />
-            )}
+            render={() => <QuantityHistory product={props.product} />}
           />
         </Switch>
       </div>
     </Router>
   );
 }
-
 export default SingleProduct;

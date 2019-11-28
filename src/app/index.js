@@ -13,51 +13,65 @@ import { Layout } from "./components";
 class App extends React.Component {
   state = {
     products: [
-      {
-        name: "Alus",
-        id: "1",
-        ean: 1234567891012,
-        type: "liquid",
-        weight: 500,
-        color: "brown",
-        isActive: true,
-        quantity: 10,
-        price: 3,
-        isEdit: false,
-        priceHistory: [3],
-        quantityHistory: [10]
-      },
-      {
-        name: "Vynas",
-        id: "2",
-        ean: 1234567891013,
-        type: "liquid",
-        weight: 700,
-        color: "red",
-        isActive: false,
-        quantity: 1,
-        price: 7,
-        isEdit: false,
-        priceHistory: [7],
-        quantityHistory: [1]
-      },
-      {
-        name: "Sidras",
-        id: "3",
-        ean: 1234567891014,
-        type: "liquid",
-        weight: 1000,
-        color: "eyellow",
-        isActive: true,
-        quantity: 7,
-        price: 5,
-        isEdit: false,
-        priceHistory: [5],
-        quantityHistory: [7]
-      }
+      // {
+      //   name: "Alus",
+      //   id: "1",
+      //   ean: 1234567891012,
+      //   type: "liquid",
+      //   weight: 500,
+      //   color: "brown",
+      //   isActive: true,
+      //   quantity: 10,
+      //   price: 3,
+      //   isEdit: false,
+      //   priceHistory: [3],
+      //   quantityHistory: [10]
+      // },
+      // {
+      //   name: "Vynas",
+      //   id: "2",
+      //   ean: 1234567891013,
+      //   type: "liquid",
+      //   weight: 700,
+      //   color: "red",
+      //   isActive: false,
+      //   quantity: 1,
+      //   price: 7,
+      //   isEdit: false,
+      //   priceHistory: [7],
+      //   quantityHistory: [1]
+      // },
+      // {
+      //   name: "Sidras",
+      //   id: "3",
+      //   ean: 1234567891014,
+      //   type: "liquid",
+      //   weight: 1000,
+      //   color: "eyellow",
+      //   isActive: true,
+      //   quantity: 7,
+      //   price: 5,
+      //   isEdit: false,
+      //   priceHistory: [5],
+      //   quantityHistory: [7]
+      // }
     ],
     error: null
   };
+  componentDidMount() {
+    const products = JSON.parse(localStorage.getItem("products"));
+    console.log(products);
+    console.log(this.state);
+    if (products) this.setState({ products: products });
+    else {
+      this.setState({
+        error: "Ooops! Monkeys stole our products! 😱👟, create new ones"
+      });
+    }
+  }
+  componentWillUpdate(nextProps, nextState) {
+    localStorage.setItem("products", JSON.stringify(nextState.products));
+  }
 
   toggleActive = id => {
     const { products } = this.state;
@@ -168,7 +182,7 @@ class App extends React.Component {
     const changedProducts = products;
     let newProduct = {};
     let IdError = error;
-    console.log(IdError);
+
     if (products.some(product => product.id === newId)) {
       IdError = "this Id is already in use";
       this.setState({ products: changedProducts, error: IdError });
@@ -186,7 +200,7 @@ class App extends React.Component {
       newProduct.priceHistory = [Number(newPrice)];
       newProduct.quantityHistory = [Number(newQuantity)];
       changedProducts.push(newProduct);
-      this.setState({ products: changedProducts });
+      this.setState({ products: changedProducts, error: null });
     }
   };
   render() {
@@ -220,7 +234,6 @@ class App extends React.Component {
 
             <Route
               path="/products/:id"
-              exact
               render={props => {
                 const { id } = props.match.params;
                 const product =

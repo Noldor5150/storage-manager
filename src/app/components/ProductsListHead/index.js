@@ -2,19 +2,24 @@ import React from "react";
 import "./index.scss";
 import { TableCell, TableHead, TableRow } from "@material-ui/core";
 
-function ProductsListHead({ keys }) {
-  const [first, , third, fourth, fifth, sixth, seventh, eigth, ninth] = keys;
-  return (
+function ProductsListHead({ products }) {
+  return products.length === 0 ? (
     <TableHead>
       <TableRow>
-        <TableCell>{first}</TableCell>
-        <TableCell align="justify">{third}</TableCell>
-        <TableCell align="justify">{fourth}</TableCell>
-        <TableCell align="justify">{fifth}</TableCell>
-        <TableCell align="justify">{sixth}</TableCell>
-        <TableCell align="justify">{eigth}</TableCell>
-        <TableCell align="justify">{ninth}</TableCell>
-        <TableCell align="justify">{seventh}</TableCell>
+        <TableCell>You deleted all your products, create new ones </TableCell>
+      </TableRow>
+    </TableHead>
+  ) : (
+    <TableHead>
+      <TableRow>
+        <TableCell align="justify">Name</TableCell>
+        <TableCell align="justify">EAN</TableCell>
+        <TableCell align="justify">Type</TableCell>
+        <TableCell align="justify">Weight</TableCell>
+        <TableCell align="justify">Color</TableCell>
+        <TableCell align="justify">Quantity</TableCell>
+        <TableCell align="justify">Price</TableCell>
+        <TableCell align="justify">Active</TableCell>
         <TableCell align="justify">Actions</TableCell>
       </TableRow>
     </TableHead>

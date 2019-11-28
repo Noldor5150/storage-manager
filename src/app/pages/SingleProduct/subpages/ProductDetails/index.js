@@ -1,8 +1,7 @@
 import React from "react";
 import "./index.scss";
 
-function ProductDetails({ history, product }) {
-  console.log(history);
+function ProductDetails({ product }) {
   const {
     name,
     id,

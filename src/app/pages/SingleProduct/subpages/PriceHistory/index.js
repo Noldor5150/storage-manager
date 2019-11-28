@@ -1,9 +1,11 @@
 import React from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+
 import "./index.scss";
 
 function PriceHistory({ product }) {
+  console.log(product);
   const options = {
     title: {
       text: product.name
