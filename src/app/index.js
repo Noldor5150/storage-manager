@@ -62,15 +62,19 @@ class App extends React.Component {
     const products = JSON.parse(localStorage.getItem("products"));
     console.log(products);
     console.log(this.state);
-    if (products) this.setState({ products: products });
-    else {
+    if (products) {
+      this.setState({ products: products, error: null });
+      console.log(this.state);
+    } else {
       this.setState({
         error: "Ooops! Monkeys stole our products! 😱👟, create new ones"
       });
+      console.log(this.state);
     }
   }
-  componentWillUpdate(nextProps, nextState) {
-    localStorage.setItem("products", JSON.stringify(nextState.products));
+  componentDidUpdate(prevProps, prevStates) {
+    console.log(this.state);
+    localStorage.setItem("products", JSON.stringify(this.state.products));
   }
 
   toggleActive = id => {
@@ -168,41 +172,13 @@ class App extends React.Component {
     });
     this.setState({ products: changedProducts });
   };
-  addNewProduct = (
-    newId,
-    newName,
-    newEan,
-    newType,
-    newWeight,
-    newColor,
-    newQuantity,
-    newPrice
-  ) => {
-    const { products, error } = this.state;
+  addNewProduct = newProduct => {
+    const { products } = this.state;
     const changedProducts = products;
-    let newProduct = {};
-    let IdError = error;
-
-    if (products.some(product => product.id === newId)) {
-      IdError = "this Id is already in use";
-      this.setState({ products: changedProducts, error: IdError });
-    } else {
-      newProduct.name = newName;
-      newProduct.id = newId;
-      newProduct.ean = Number(newEan);
-      newProduct.type = newType;
-      newProduct.weight = newWeight;
-      newProduct.color = newColor;
-      newProduct.isActive = false;
-      newProduct.quantity = Number(newQuantity);
-      newProduct.price = Number(newPrice);
-      newProduct.isEdit = false;
-      newProduct.priceHistory = [Number(newPrice)];
-      newProduct.quantityHistory = [Number(newQuantity)];
-      changedProducts.push(newProduct);
-      this.setState({ products: changedProducts, error: null });
-    }
+    changedProducts.push(newProduct);
+    this.setState({ products: changedProducts });
   };
+
   render() {
     const { products, error } = this.state;
     return (
@@ -228,19 +204,14 @@ class App extends React.Component {
               path="/products/create"
               exact
               render={() => (
-                <Create error={error} addNewProduct={this.addNewProduct} />
+                <Create
+                  error={error}
+                  addNewProduct={this.addNewProduct}
+                  products={products}
+                />
               )}
             />
 
-            <Route
-              path="/products/:id"
-              render={props => {
-                const { id } = props.match.params;
-                const product =
-                  products.find(product => product.id === id) || {};
-                return <SingleProduct {...props} product={product} />;
-              }}
-            />
             <Route
               path="/products/:id/edit"
               exact
@@ -258,6 +229,15 @@ class App extends React.Component {
                 );
               }}
             />
+            <Route
+              path="/products/:id"
+              render={props => {
+                const { id } = props.match.params;
+                const product =
+                  products.find(product => product.id === id) || {};
+                return <SingleProduct {...props} product={product} />;
+              }}
+            />
             <Route component={PageNotFound} />
           </Switch>
         </Layout>
@@ -265,5 +245,4 @@ class App extends React.Component {
     );
   }
 }
-
 export default App;
