@@ -232,7 +232,6 @@ class Create extends React.Component {
           onChange={this.handleColorChange}
           value={newProduct.color}
         />
-
         <TextField
           required
           type="number"
@@ -255,7 +254,6 @@ class Create extends React.Component {
           onChange={this.handlePriceChange}
           value={newProduct.price}
         />
-
         <Link onClick={this.handleClick} to={"/products/"}>
           <Button
             style={{

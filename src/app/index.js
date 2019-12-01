@@ -12,71 +12,26 @@ import { Layout } from "./components";
 
 class App extends React.Component {
   state = {
-    products: [
-      // {
-      //   name: "Alus",
-      //   id: "1",
-      //   ean: 1234567891012,
-      //   type: "liquid",
-      //   weight: 500,
-      //   color: "brown",
-      //   isActive: true,
-      //   quantity: 10,
-      //   price: 3,
-      //   isEdit: false,
-      //   priceHistory: [3],
-      //   quantityHistory: [10]
-      // },
-      // {
-      //   name: "Vynas",
-      //   id: "2",
-      //   ean: 1234567891013,
-      //   type: "liquid",
-      //   weight: 700,
-      //   color: "red",
-      //   isActive: false,
-      //   quantity: 1,
-      //   price: 7,
-      //   isEdit: false,
-      //   priceHistory: [7],
-      //   quantityHistory: [1]
-      // },
-      // {
-      //   name: "Sidras",
-      //   id: "3",
-      //   ean: 1234567891014,
-      //   type: "liquid",
-      //   weight: 1000,
-      //   color: "eyellow",
-      //   isActive: true,
-      //   quantity: 7,
-      //   price: 5,
-      //   isEdit: false,
-      //   priceHistory: [5],
-      //   quantityHistory: [7]
-      // }
-    ],
+    products: [],
     error: null
   };
   componentDidMount() {
     const products = JSON.parse(localStorage.getItem("products"));
-    console.log(products);
-    console.log(this.state);
     if (products) {
       this.setState({ products: products, error: null });
-      console.log(this.state);
     } else {
       this.setState({
+        ...this.state,
         error: "Ooops! Monkeys stole our products! 😱👟, create new ones"
       });
-      console.log(this.state);
     }
   }
-  componentDidUpdate(prevProps, prevStates) {
-    console.log(this.state);
-    localStorage.setItem("products", JSON.stringify(this.state.products));
+  componentDidUpdate() {
+    if (this.state.products.length > 0 && this.state.error) {
+      localStorage.setItem("products", JSON.stringify(this.state.products));
+      this.setState({ ...this.state, error: null });
+    }
   }
-
   toggleActive = id => {
     const { products } = this.state;
     const changedProducts = products.map(product => {
@@ -85,7 +40,9 @@ class App extends React.Component {
       }
       return product;
     });
-    this.setState({ products: changedProducts });
+    this.setState({ products: changedProducts }, () =>
+      localStorage.setItem("products", JSON.stringify(this.state.products))
+    );
   };
   enableEdit = id => {
     const { products } = this.state;
@@ -102,9 +59,13 @@ class App extends React.Component {
     }
   };
   deleteProduct = removeId => {
-    this.setState(state => {
-      return { products: state.products.filter(({ id }) => id !== removeId) };
-    });
+    this.setState(
+      state => {
+        return { products: state.products.filter(({ id }) => id !== removeId) };
+      },
+      () =>
+        localStorage.setItem("products", JSON.stringify(this.state.products))
+    );
   };
   saveEditedFromList = (id, newQuantity, newPrice) => {
     const { products } = this.state;
@@ -130,7 +91,9 @@ class App extends React.Component {
       }
       return product;
     });
-    this.setState({ products: changedProducts });
+    this.setState({ products: changedProducts }, () =>
+      localStorage.setItem("products", JSON.stringify(this.state.products))
+    );
   };
   saveEditedFromEdit = (
     id,
@@ -170,15 +133,20 @@ class App extends React.Component {
       }
       return product;
     });
-    this.setState({ products: changedProducts });
+    this.setState({ products: changedProducts }, () =>
+      localStorage.setItem("products", JSON.stringify(this.state.products))
+    );
   };
   addNewProduct = newProduct => {
-    const { products } = this.state;
-    const changedProducts = products;
-    changedProducts.push(newProduct);
-    this.setState({ products: changedProducts });
+    this.setState(
+      {
+        ...this.state,
+        products: [...this.state.products, newProduct]
+      },
+      () =>
+        localStorage.setItem("products", JSON.stringify(this.state.products))
+    );
   };
-
   render() {
     const { products, error } = this.state;
     return (
@@ -211,7 +179,6 @@ class App extends React.Component {
                 />
               )}
             />
-
             <Route
               path="/products/:id/edit"
               exact
