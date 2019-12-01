@@ -74,11 +74,17 @@ class App extends React.Component {
         product.isEdit = false;
         const newPriceStory = product.priceHistory;
         const newQuantityStory = product.quantityHistory;
+        const newPriceTimeChange = product.priceTimeChange;
+        const newQuantityTimeChange = product.quantityTimeChange;
         if (newPrice && Number(newPrice) !== product.price) {
           newPriceStory.push(Number(newPrice));
           product.price = Number(newPrice);
           if (newPriceStory.length > 5) {
             newPriceStory.shift();
+          }
+          newPriceTimeChange.push(new Date());
+          if (newPriceTimeChange.length > 5) {
+            newPriceTimeChange.shift();
           }
         }
         if (newQuantity && Number(newQuantity) !== product.quantity) {
@@ -86,6 +92,10 @@ class App extends React.Component {
           product.quantity = Number(newQuantity);
           if (newQuantityStory.length > 5) {
             newQuantityStory.shift();
+          }
+          newQuantityTimeChange.push(new Date());
+          if (newQuantityTimeChange.length > 5) {
+            newQuantityTimeChange.shift();
           }
         }
       }
@@ -116,11 +126,17 @@ class App extends React.Component {
         product.color = newColor ? newColor : product.color;
         const newPriceStory = product.priceHistory;
         const newQuantityStory = product.quantityHistory;
+        const newPriceTimeChange = product.priceTimeChange;
+        const newQuantityTimeChange = product.quantityTimeChange;
         if (newPrice && Number(newPrice) !== product.price) {
           newPriceStory.push(Number(newPrice));
           product.price = Number(newPrice);
           if (newPriceStory.length > 5) {
             newPriceStory.shift();
+          }
+          newPriceTimeChange.push(new Date());
+          if (newPriceTimeChange.length > 5) {
+            newPriceTimeChange.shift();
           }
         }
         if (newQuantity && Number(newQuantity) !== product.quantity) {
@@ -128,6 +144,10 @@ class App extends React.Component {
           product.quantity = Number(newQuantity);
           if (newQuantityStory.length > 5) {
             newQuantityStory.shift();
+          }
+          newQuantityTimeChange.push(new Date());
+          if (newQuantityTimeChange.length > 5) {
+            newQuantityTimeChange.shift();
           }
         }
       }

@@ -1,12 +1,14 @@
 import React from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import "./index.scss";
 
 function QuantityHistory({ product }) {
   const options = {
     title: {
       text: product.name
+    },
+    xAxis: {
+      categories: product.quantityTimeChange
     },
     series: [
       {

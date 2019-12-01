@@ -72,7 +72,7 @@ function Edit({ product, toggleActive, saveEditedFromEdit }) {
             value="isActive"
           />
         }
-        label="is on sale"
+        label="Active"
       />
       <TextField
         type="number"

@@ -17,7 +17,9 @@ class Create extends React.Component {
       price: "",
       isEdit: false,
       priceHistory: [],
-      quantityHistory: []
+      priceTimeChange: [],
+      quantityHistory: [],
+      quantityTimeChange: []
     },
     localError: {
       nameError: "field is empty",
@@ -129,11 +131,12 @@ class Create extends React.Component {
     const newObj = newProduct;
     const error = localError;
     newObj.quantity = Number(event.target.value);
-    if (newObj.quantity >= 0 && newObj.quantity <= 99999) {
+    if (newObj.quantity >= 0 && newObj.quantity <= 9999) {
       error.quantityError = null;
       newObj.quantityHistory = [newObj.quantity];
+      newObj.quantityTimeChange = [new Date()];
       this.setState({ newProduct: newObj, localError: error });
-    } else if (newObj.quantity > 99999) {
+    } else if (newObj.quantity > 9999) {
       error.quantityError = "we can not handle such quantity";
       this.setState({ newProduct: newObj, localError: error });
     } else {
@@ -149,9 +152,10 @@ class Create extends React.Component {
     if (newObj.price >= 0 && newObj.price <= 9999) {
       error.priceError = null;
       newObj.priceHistory = [newObj.price];
+      newObj.priceTimeChange = [new Date()];
       this.setState({ newProduct: newObj, localError: error });
     } else if (newObj.quantity > 9999) {
-      error.priceError = "price is to big";
+      error.priceError = "price is to high";
       this.setState({ newProduct: newObj, localError: error });
     } else {
       error.priceError = "price can not be negative or empty";

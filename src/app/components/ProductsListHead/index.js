@@ -1,5 +1,4 @@
 import React from "react";
-import "./index.scss";
 import { TableCell, TableHead, TableRow } from "@material-ui/core";
 
 function ProductsListHead({ products }) {
