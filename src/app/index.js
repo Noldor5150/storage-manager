@@ -16,9 +16,15 @@ class App extends React.Component {
     error: null
   };
   componentDidMount() {
-    const products = JSON.parse(localStorage.getItem("products"));
+    const products = window.localStorage.getItem("products");
+    // ? JSON.parse(window.localStorage.getItem("products"))
+    // : [];
+    console.log(products);
     if (products) {
-      this.setState({ products: products, error: null });
+      this.setState({
+        products: JSON.parse(window.localStorage.getItem("products")),
+        error: null
+      });
     } else {
       this.setState({
         ...this.state,
