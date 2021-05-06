@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.6.1",
-    "highcharts": "^7.2.1",
+    "highcharts": "^9.0.0",
     "highcharts-react-official": "^2.2.2",
     "node-sass": "^4.13.0",
     "react": "^16.11.0",
